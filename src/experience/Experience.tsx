@@ -1,5 +1,8 @@
+import { Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { ACESFilmicToneMapping } from 'three'
+import { FollowCamera } from './player/FollowCamera'
+import { Player } from './player/Player'
 import { Ground } from './world/Ground'
 import { Lighting } from './world/Lighting'
 
@@ -19,6 +22,10 @@ export function Experience() {
       <fog attach="fog" args={['#b7e0a8', 22, 48]} />
       <Lighting />
       <Ground />
+      <Suspense fallback={null}>
+        <Player />
+      </Suspense>
+      <FollowCamera />
     </Canvas>
   )
 }
