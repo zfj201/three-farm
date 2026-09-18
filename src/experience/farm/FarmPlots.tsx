@@ -15,11 +15,11 @@ export function FarmPlots() {
         <group key={center.x} position={[center.x, 0, center.z]}>
           <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.01, 0]} receiveShadow>
             <planeGeometry args={[size.width + 0.7, size.depth + 0.7]} />
-            <meshStandardMaterial color="#6b4423" roughness={1} />
+            <meshLambertMaterial color="#6b4423" />
           </mesh>
           <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.025, 0]} receiveShadow>
             <planeGeometry args={[size.width + 0.35, size.depth + 0.35]} />
-            <meshStandardMaterial color="#8a5a2b" roughness={0.95} />
+            <meshLambertMaterial color="#8a5a2b" />
           </mesh>
         </group>
       ))}
@@ -32,7 +32,7 @@ export function FarmPlots() {
           <group key={cell.id} position={[pos.x, 0, pos.z]}>
             <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.04, 0]} receiveShadow>
               <planeGeometry args={[WORLD.cellSize - 0.08, WORLD.cellSize - 0.08]} />
-              <meshStandardMaterial color={focused ? '#b9783c' : '#7a4b24'} roughness={1} />
+              <meshLambertMaterial color={focused ? '#b9783c' : '#7a4b24'} />
             </mesh>
             {focused && <FocusRing ready={stage === 'mature'} empty={stage === 'empty'} />}
             {cell.cropId && cell.plantedAt != null && (

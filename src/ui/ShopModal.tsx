@@ -51,7 +51,7 @@ export function ShopModal() {
         </div>
         <div className="modal-foot">
           <span>生长越久的作物卖得越贵：{CROP_LIST.map((crop) => `${crop.name} ${CROPS[crop.id].sellPrice}`).join(' / ')}</span>
-          <button type="button" onClick={() => sellAll()}>
+          <button type="button" className="primary-btn" onClick={() => sellAll()}>
             全部卖出
           </button>
         </div>

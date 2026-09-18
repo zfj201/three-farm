@@ -10,7 +10,7 @@ export const WORLD = {
     { x: 5.15, z: 0.35 },
   ] as const,
   stall: { x: 0, z: -8.4 },
-  spawn: { x: 0, y: 0, z: 6.4 },
+  spawn: { x: 0, y: 0, z: 4.6 },
 } as const
 
 export function plotSize() {

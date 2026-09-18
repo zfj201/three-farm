@@ -11,7 +11,7 @@ export function GameSystems() {
     store.tickHud(now)
 
     const cell = findCellAt(playerRuntime.position.x, playerRuntime.position.z)
-    const nearShop = distanceToStall(playerRuntime.position.x, playerRuntime.position.z) < 2.15
+    const nearShop = distanceToStall(playerRuntime.position.x, playerRuntime.position.z) < 2.6
     store.setFocus(cell?.id ?? null, nearShop)
     if (store.shopOpen && !nearShop) store.closeShop()
 

@@ -78,9 +78,9 @@ export function Player() {
 
   return (
     <group ref={group} dispose={null}>
-      <primitive object={clone} scale={1} position={[0, 0, 0]} />
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.02, 0]} receiveShadow>
-        <circleGeometry args={[0.55, 16]} />
+      <primitive object={clone} scale={0.38} position={[0, 0, 0]} />
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.02, 0]}>
+        <circleGeometry args={[0.32, 16]} />
         <meshStandardMaterial color="#3f6d32" transparent opacity={0.35} />
       </mesh>
     </group>

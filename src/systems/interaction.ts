@@ -1,7 +1,7 @@
 import { WORLD, cellWorldPosition } from '../data/world'
 
 export function findCellAt(x: number, z: number) {
-  const half = WORLD.cellSize / 2 - 0.02
+  const half = WORLD.cellSize / 2 + 0.16
   for (const plotId of [0, 1] as const) {
     for (let row = 0; row < WORLD.rows; row += 1) {
       for (let col = 0; col < WORLD.cols; col += 1) {

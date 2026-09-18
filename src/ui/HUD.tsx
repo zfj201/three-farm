@@ -40,9 +40,10 @@ export function HUD() {
         </div>
       </div>
 
-      <div className="hud-prompt">{prompt}</div>
+      <div className="hud-bottom">
+        <div className="hud-prompt">{prompt}</div>
 
-      <div className="hotbar">
+        <div className="hotbar">
         {CROP_LIST.map((crop) => {
           const active = crop.id === selectedSeed
           return (
@@ -60,6 +61,7 @@ export function HUD() {
             </button>
           )
         })}
+        </div>
       </div>
     </div>
   )

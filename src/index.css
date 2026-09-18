@@ -16,10 +16,7 @@ body,
   width: 100%;
   height: 100%;
   overflow: hidden;
-}
-
-.app-shell {
-  position: relative;
+  background: #9ad4ff;
 }
 
 button {
@@ -38,6 +35,7 @@ button {
 }
 
 .hud-top,
+.hud-bottom,
 .hotbar,
 .hud-prompt {
   pointer-events: auto;
@@ -102,6 +100,13 @@ button {
   padding: 10px 16px;
   border-radius: 999px;
   font-size: 15px;
+}
+
+.hud-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
 }
 
 .hotbar {
@@ -219,7 +224,7 @@ button {
 }
 
 .primary-btn {
-  margin-top: 16px;
+  margin-top: 0;
   background: #6aa84f;
   border-color: #d9f59a;
 }
@@ -231,6 +236,10 @@ button {
 
 .tutorial {
   max-width: 460px;
+}
+
+.tutorial .primary-btn {
+  margin-top: 16px;
 }
 
 @media (max-width: 800px) {

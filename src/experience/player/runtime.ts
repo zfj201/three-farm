@@ -4,7 +4,7 @@ import { WORLD } from '../../data/world'
 export const playerRuntime = {
   position: new Vector3(WORLD.spawn.x, WORLD.spawn.y, WORLD.spawn.z),
   yaw: Math.PI,
-  cameraYaw: 0.42,
+  cameraYaw: 0,
   cameraPitch: 0.36,
   moving: false,
   running: false,
