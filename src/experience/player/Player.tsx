@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef } from 'react'
 import { useAnimations, useGLTF } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
-import { LoopOnce, LoopRepeat, type Group } from 'three'
+import { LoopOnce, LoopRepeat, type AnimationAction, type Group } from 'three'
 import { SkeletonUtils } from 'three-stdlib'
 import { bindPlayerInput, readInput } from './input'
 import { clampToYard, playerRuntime, resolveYawDelta } from './runtime'
@@ -73,25 +73,8 @@ export function Player() {
     if (acting) clip = playerRuntime.actionName
     else if (playerRuntime.running) clip = 'Running'
     else if (playerRuntime.moving) clip = 'Walking'
-    playClip(clip)
+    switchClip(currentClip, actions, clip)
   }, -1)
-
-  function playClip(name: string) {
-    if (currentClip.current === name) return
-    const next = actions[name]
-    const prev = actions[currentClip.current]
-    if (!next) return
-    prev?.fadeOut(0.18)
-    next.reset().fadeIn(0.18).play()
-    if (name === 'Wave' || name === 'Punch') {
-      next.setLoop(LoopOnce, 1)
-      next.clampWhenFinished = true
-    } else {
-      next.setLoop(LoopRepeat, Infinity)
-      next.clampWhenFinished = false
-    }
-    currentClip.current = name
-  }
 
   return (
     <group ref={group} dispose={null}>
@@ -105,3 +88,24 @@ export function Player() {
 }
 
 useGLTF.preload(MODEL_URL)
+
+function switchClip(
+  currentClip: { current: string },
+  actions: Record<string, AnimationAction | null | undefined>,
+  name: string,
+) {
+  if (currentClip.current === name) return
+  const next = actions[name]
+  const prev = actions[currentClip.current]
+  if (!next) return
+  prev?.fadeOut(0.18)
+  next.reset().fadeIn(0.18).play()
+  if (name === 'Wave' || name === 'Punch') {
+    next.setLoop(LoopOnce, 1)
+    next.clampWhenFinished = true
+  } else {
+    next.setLoop(LoopRepeat, Infinity)
+    next.clampWhenFinished = false
+  }
+  currentClip.current = name
+}

@@ -1,6 +1,8 @@
 import { Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { ACESFilmicToneMapping } from 'three'
+import { FarmPlots } from './farm/FarmPlots'
+import { GameSystems } from './GameSystems'
 import { FollowCamera } from './player/FollowCamera'
 import { Player } from './player/Player'
 import { Ground } from './world/Ground'
@@ -22,6 +24,8 @@ export function Experience() {
       <fog attach="fog" args={['#b7e0a8', 22, 48]} />
       <Lighting />
       <Ground />
+      <FarmPlots />
+      <GameSystems />
       <Suspense fallback={null}>
         <Player />
       </Suspense>
