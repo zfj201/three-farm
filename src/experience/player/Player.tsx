@@ -4,7 +4,7 @@ import { useFrame } from '@react-three/fiber'
 import { LoopOnce, LoopRepeat, type AnimationAction, type Group } from 'three'
 import { SkeletonUtils } from 'three-stdlib'
 import { bindPlayerInput, readInput } from './input'
-import { clampToYard, playerRuntime, resolveYawDelta } from './runtime'
+import { moveWithCollision, playerRuntime, resolveYawDelta } from './runtime'
 
 const MODEL_URL = '/models/RobotExpressive.glb'
 const WALK_SPEED = 3.35
@@ -53,9 +53,9 @@ export function Player() {
       const speed = (running ? RUN_SPEED : WALK_SPEED) * delta
       const nx = nextX + (dirX / length) * speed
       const nz = nextZ + (dirZ / length) * speed
-      const clamped = clampToYard(nx, nz)
-      nextX = clamped.x
-      nextZ = clamped.z
+      const collided = moveWithCollision(nextX, nextZ, nx, nz)
+      nextX = collided.x
+      nextZ = collided.z
       const targetYaw = Math.atan2(dirX, dirZ)
       playerRuntime.yaw += resolveYawDelta(playerRuntime.yaw, targetYaw) * (1 - Math.exp(-delta * 10))
     }

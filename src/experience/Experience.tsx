@@ -7,6 +7,7 @@ import { FollowCamera } from './player/FollowCamera'
 import { Player } from './player/Player'
 import { Ground } from './world/Ground'
 import { Lighting } from './world/Lighting'
+import { Stall } from './world/Stall'
 
 export function Experience() {
   return (
@@ -25,6 +26,7 @@ export function Experience() {
       <Lighting />
       <Ground />
       <FarmPlots />
+      <Stall />
       <GameSystems />
       <Suspense fallback={null}>
         <Player />

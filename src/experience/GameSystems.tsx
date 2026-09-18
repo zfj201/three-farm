@@ -13,6 +13,13 @@ export function GameSystems() {
     const cell = findCellAt(playerRuntime.position.x, playerRuntime.position.z)
     const nearShop = distanceToStall(playerRuntime.position.x, playerRuntime.position.z) < 2.15
     store.setFocus(cell?.id ?? null, nearShop)
+    if (store.shopOpen && !nearShop) store.closeShop()
+
+    if (!store.tutorialDone) {
+      consumeSeedSlot()
+      consumeInteract()
+      return
+    }
 
     const slot = consumeSeedSlot()
     if (slot) store.selectSeedBySlot(slot)
