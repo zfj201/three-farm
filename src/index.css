@@ -72,6 +72,12 @@ button {
   font-size: 13px;
 }
 
+.hud-top-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .hud-coins,
 .hud-prompt,
 .hotbar-slot,

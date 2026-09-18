@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { CROPS, CROP_IDS, type CropId } from '../data/crops'
 import { WORLD, cellWorldPosition } from '../data/world'
 import { cropByHotkey, cropStage } from '../systems/growth'
+import { loadSave, writeSave } from './persist'
 import type { CellState, Counts, FarmSnapshot, HarvestBurst } from './types'
 
 let burstSeq = 1
@@ -61,8 +62,13 @@ type FarmStore = FarmSnapshot & {
   hydrate: (snapshot: FarmSnapshot) => void
 }
 
+function persist(get: () => FarmStore) {
+  const { coins, seeds, harvest, selectedSeed, cells, tutorialDone } = get()
+  writeSave({ coins, seeds, harvest, selectedSeed, cells, tutorialDone })
+}
+
 export const useFarmStore = create<FarmStore>((set, get) => ({
-  ...initialFarm(),
+  ...(loadSave() ?? initialFarm()),
   focusedCellId: null,
   nearShop: false,
   shopOpen: false,
@@ -75,9 +81,15 @@ export const useFarmStore = create<FarmStore>((set, get) => ({
     set({ focusedCellId: cellId, nearShop })
   },
 
-  selectSeed: (id) => set({ selectedSeed: id }),
+  selectSeed: (id) => {
+    set({ selectedSeed: id })
+    persist(get)
+  },
 
-  selectSeedBySlot: (slot) => set({ selectedSeed: cropByHotkey(slot) }),
+  selectSeedBySlot: (slot) => {
+    set({ selectedSeed: cropByHotkey(slot) })
+    persist(get)
+  },
 
   tryInteract: () => {
     const state = get()
@@ -102,6 +114,7 @@ export const useFarmStore = create<FarmStore>((set, get) => ({
           item.id === cell.id ? { ...item, cropId: seed, plantedAt: now } : item,
         ),
       })
+      persist(get)
       return 'plant'
     }
     if (stage === 'mature' && cell.cropId) {
@@ -122,6 +135,7 @@ export const useFarmStore = create<FarmStore>((set, get) => ({
         ),
         harvestBursts: [...state.harvestBursts, burst],
       })
+      persist(get)
       return 'harvest'
     }
     return null
@@ -135,6 +149,7 @@ export const useFarmStore = create<FarmStore>((set, get) => ({
       coins: state.coins - cost,
       seeds: { ...state.seeds, [id]: state.seeds[id] + 1 },
     })
+    persist(get)
     return true
   },
 
@@ -145,6 +160,7 @@ export const useFarmStore = create<FarmStore>((set, get) => ({
       coins: state.coins + CROPS[id].sellPrice,
       harvest: { ...state.harvest, [id]: state.harvest[id] - 1 },
     })
+    persist(get)
     return true
   },
 
@@ -158,6 +174,7 @@ export const useFarmStore = create<FarmStore>((set, get) => ({
     }
     if (gained <= 0) return 0
     set({ coins: state.coins + gained, harvest: next })
+    persist(get)
     return gained
   },
 
@@ -167,11 +184,14 @@ export const useFarmStore = create<FarmStore>((set, get) => ({
   },
 
   closeShop: () => set({ shopOpen: false }),
-  completeTutorial: () => set({ tutorialDone: true }),
+  completeTutorial: () => {
+    set({ tutorialDone: true })
+    persist(get)
+  },
   dismissBurst: (id) =>
     set({ harvestBursts: get().harvestBursts.filter((burst) => burst.id !== id) }),
 
-  resetFarm: () =>
+  resetFarm: () => {
     set({
       ...initialFarm(),
       focusedCellId: get().focusedCellId,
@@ -179,7 +199,9 @@ export const useFarmStore = create<FarmStore>((set, get) => ({
       shopOpen: false,
       hudNow: Date.now(),
       harvestBursts: [],
-    }),
+    })
+    persist(get)
+  },
 
   hydrate: (snapshot) =>
     set({

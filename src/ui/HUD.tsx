@@ -13,6 +13,7 @@ export function HUD() {
   const shopOpen = useFarmStore((state) => state.shopOpen)
   const hudNow = useFarmStore((state) => state.hudNow)
   const harvest = useFarmStore((state) => state.harvest)
+  const resetFarm = useFarmStore((state) => state.resetFarm)
 
   const focused = cells.find((cell) => cell.id === focusedCellId)
   const prompt = buildPrompt({
@@ -31,7 +32,12 @@ export function HUD() {
           <strong>晨露农场</strong>
           <span>Three.js / R3F 农场 Demo</span>
         </div>
-        <div className="hud-coins">金币 {coins}</div>
+        <div className="hud-top-right">
+          <div className="hud-coins">金币 {coins}</div>
+          <button type="button" className="ghost-btn" onClick={resetFarm}>
+            重置农场
+          </button>
+        </div>
       </div>
 
       <div className="hud-prompt">{prompt}</div>
